@@ -13,6 +13,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] Item axe;
     [SerializeField] Text tutorialInfo;
     [SerializeField] PickedItem ItemList;
+    [SerializeField] AudioSource barrelSound;
 
 
     private bool pressedW = false;
@@ -118,9 +119,10 @@ public class Tutorial : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F) && crouchComplete && itemBlockingExit.IsPlayerNearItem())
         {
+            barrelSound.Play();
             tutorialComplete = true;
             itemBlockingExit.SetTextActive(false);
-            Destroy(itemBlockingExit.gameObject);
+            Destroy(itemBlockingExit.gameObject, 0.5f);
             tutorialInfo.text = "Good Job! you finish the tutorial let's see you ESCAPE NOW! GOOD LUUCK!!!";
             ShowEndOfTutorial();
         }
@@ -164,7 +166,7 @@ public class Tutorial : MonoBehaviour
 
     private IEnumerator NextRoom()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("FirstRoom");
     }
 

@@ -39,6 +39,7 @@ public class Item : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             nearTheItem = true;
+            itemTextF.text = "F";
             itemTextF.gameObject.SetActive(true);
         }
     }
@@ -66,5 +67,15 @@ public class Item : MonoBehaviour
     public void SetTextActive(bool active)
     {
         itemTextF.gameObject.SetActive(active);
+    }
+
+    public void SetText(string text)
+    {
+        itemTextF.text = text;
+    }
+
+    public void SetTextSize(int size)
+    {
+        itemTextF.fontSize = size;
     }
 }

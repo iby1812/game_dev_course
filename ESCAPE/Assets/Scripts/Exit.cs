@@ -7,9 +7,10 @@ public class Exit : MonoBehaviour
 {
 
     [SerializeField] Text doorText;
+    [SerializeField] AudioSource doorSound;
 
     private bool nearTheDoor = false;
-
+    private bool openDoor = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,16 +21,35 @@ public class Exit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && nearTheDoor)
+        if (Input.GetKeyDown(KeyCode.F) && nearTheDoor && !openDoor)
         {
-            doorText.text = "LOOKED";
+            doorText.text = "LOCKED";
+        }
+        if (openDoor)
+        {
+           
+            if (transform.eulerAngles.y > 330f || transform.eulerAngles.y == 0)
+            {
+                if (!doorSound.isPlaying)
+                {
+                    doorSound.Play();
+                }
+                transform.Rotate(0f, -5f * Time.deltaTime, 0f);
+            }
+            else
+            {
+                doorSound.Stop();
+            }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         nearTheDoor = true;
-        doorText.gameObject.SetActive(true);
+        if (!openDoor)
+        {
+            doorText.gameObject.SetActive(true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -39,5 +59,9 @@ public class Exit : MonoBehaviour
         doorText.text = "F";
     }
 
-    
+    public void OpenDoor()
+    {
+        openDoor = true;
+        doorText.gameObject.SetActive(false);
+    }
 }
